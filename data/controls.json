@@ -1,0 +1,32 @@
+{
+    "devices" :
+    [
+	{
+	    "guid" : "030000004f0400000204000011010000",
+	    "bindings":
+	    [
+		{
+		    "type": "button",
+		    "name": "guns",
+		    "id": 0
+		},
+		{
+		    "type": "button",
+		    "name": "bombs",
+		    "id": 1
+		}
+	    ]
+	},
+	{
+	    "guid" : "030000004f0400000404000011010000",
+	    "bindings":
+	    [
+		{
+		    "type": "axis",
+		    "name": "throttle",
+		    "id": 2
+		}
+	    ]
+	}
+    ]
+}
