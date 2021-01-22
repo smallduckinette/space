@@ -14,6 +14,16 @@
 		    "type": "button",
 		    "name": "bombs",
 		    "id": 1
+		},
+		{
+		    "type": "axis",
+		    "name": "pitch",
+		    "id": 1
+		},
+		{
+		    "type": "axis",
+		    "name": "roll",
+		    "id": 0
 		}
 	    ]
 	},
