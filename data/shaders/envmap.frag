@@ -1,8 +1,9 @@
+smooth in vec3 eyeDirection;
 out vec4 FragColor;
 
-in vec2 textureCoords;
+uniform samplerCube envMap;
 
 void main()
 {
-    FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    FragColor = texture(envMap, eyeDirection);
 }

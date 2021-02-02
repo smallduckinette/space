@@ -1,4 +1,7 @@
-out vec2 textureCoords;
+smooth out vec3 eyeDirection;
+
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
 
 void main() {
     const vec2 positions[4] = vec2[](
@@ -7,13 +10,13 @@ void main() {
         vec2(-1, +1),
         vec2(+1, +1)
     );
-    const vec2 coords[4] = vec2[](
-        vec2(0, 0),
-        vec2(1, 0),
-        vec2(0, 1),
-        vec2(1, 1)
-    );
 
-    textureCoords = coords[gl_VertexID];
-    gl_Position = vec4(positions[gl_VertexID], 0.99, 1.0);
+    vec4 pos = vec4(positions[gl_VertexID], 0.99, 1.0);
+
+    mat4 inverseProjection = inverse(projectionMatrix);
+    mat3 inverseModelview = transpose(mat3(viewMatrix));
+    vec3 unprojected = (inverseProjection * pos).xyz;
+    eyeDirection = inverseModelview * unprojected;
+
+    gl_Position = pos;
 }

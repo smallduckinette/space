@@ -87,39 +87,39 @@ void main()
 #else
    vec3 n = normalize(Normal);
 #endif
-   
+
    vec3 v = normalize(ViewPos - FragPos);
-   
-   vec3 f0 = vec3(0.04);   
+
+   vec3 f0 = vec3(0.04);
    f0 = mix(f0, albedo, metallic);
-   
+
    vec3 l = normalize(LightPos - FragPos);
    vec3 h = normalize(v + l);
    float distance = length(LightPos - FragPos);
    float attenuation = 1.0 / (distance * distance);
    vec3 radiance = lightColor * attenuation;
-   
+
    // Cook-Torrance BRDF
    float ndf = DistributionGGX(n, h, roughness);
    float g = GeometrySmith(n, v, l, roughness);
    vec3 f = fresnelSchlick(clamp(dot(h, v), 0.0, 1.0), f0);
-   
+
    vec3 nominator = ndf * g * f;
    float denominator = 4 * max(dot(n, v), 0.0) * max(dot(n, l), 0.0);
    vec3 specular = nominator / max(denominator, 0.001);
-   
+
    vec3 ks = f;
    vec3 kd = vec3(1.0) - ks;
-   
+
    kd *= 1.0 - metallic;
 
    float NdotL = max(dot(n, l), 0.0);
 
    vec3 color = (kd * albedo / PI + specular) * radiance * NdotL;
-   
+
    color = color / (color + vec3(1.0));
    color = pow(color, vec3(1.0/2.2));
-   
+
    FragColor = vec4(color, 1.0);
    //FragColor = vec4(vec3(f0), 1.0);
 }
