@@ -11,7 +11,7 @@ void main() {
         vec2(+1, +1)
     );
 
-    vec4 pos = vec4(positions[gl_VertexID], 0.99, 1.0);
+    vec4 pos = vec4(positions[gl_VertexID], 1.0, 1.0);
 
     mat4 inverseProjection = inverse(projectionMatrix);
     mat3 inverseModelview = transpose(mat3(viewMatrix));
