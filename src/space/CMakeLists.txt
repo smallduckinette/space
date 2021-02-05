@@ -1,6 +1,7 @@
 add_executable(
   space
-  space.cpp)
+  space.cpp
+  world.cpp)
 
 target_link_libraries(
   space

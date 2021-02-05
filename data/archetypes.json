@@ -1,0 +1,9 @@
+[
+    {
+	"archetypeName" : "asteroid",
+	"graphics" :
+	{
+	    "model" : "models/asteroid/asteroid.gltf"
+	}
+    }
+]
