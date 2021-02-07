@@ -1,5 +1,6 @@
 add_executable(
   space
+  physics.cpp
   space.cpp
   world.cpp)
 

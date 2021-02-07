@@ -4,6 +4,9 @@
 	"graphics" :
 	{
 	    "model" : "models/asteroid/asteroid.gltf"
+	},
+	"physics" :
+	{
 	}
     }
 ]

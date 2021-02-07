@@ -3,6 +3,7 @@
 
 #include "engine/entity/entitylibrary.h"
 #include "engine/graphics/graphics.h"
+#include "space/physics.h"
 
 namespace space
 {
@@ -25,6 +26,7 @@ namespace space
 
     engine::EntityLibrary _entityLibrary;
     engine::Graphics _graphics;
+    Physics _physics;
     std::filesystem::path _dataDir;
   };
 }

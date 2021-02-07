@@ -1,8 +1,8 @@
 #include "world.h"
 
 #include <fstream>
-#include <random>
 #include <boost/log/trivial.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 space::World::World(engine::Clock * clock,
                     int resX,
@@ -26,9 +26,17 @@ void space::World::onFrame()
 
 void space::World::registerSystemsAndEntities()
 {
-  BOOST_LOG_TRIVIAL(info) << "Register systems and archetypes";
+  BOOST_LOG_TRIVIAL(info) << "Register systems";
   _entityLibrary.registerSystem(&_graphics);
+  _entityLibrary.registerSystem(&_physics);
 
+  BOOST_LOG_TRIVIAL(info) << "Register callbacks";
+  _physics.onTransform().connect(std::bind(&engine::Graphics::setEntityTransform,
+                                           &_graphics,
+                                           std::placeholders::_1,
+                                           std::placeholders::_2));
+
+  BOOST_LOG_TRIVIAL(info) << "Register entities";
   Json::Value doc;
   std::ifstream str(_dataDir / "archetypes.json");
   str >> doc;
@@ -38,20 +46,8 @@ void space::World::registerSystemsAndEntities()
 void space::World::initWorld()
 {
   BOOST_LOG_TRIVIAL(info) << "Create world";
-  std::random_device r;
-  std::default_random_engine e1(r());
-  std::uniform_int_distribution<int> uniform_dist(-100, 100);
-
   for(int index = 0; index < 1000; ++index)
   {
-    engine::EntityId entityId = _entityLibrary.createEntity("asteroid");
-
-    int x = uniform_dist(e1);
-    int y = uniform_dist(e1);
-    int z = uniform_dist(e1);
-
-    _graphics.setEntityTransform(entityId,
-                                 glm::translate(glm::mat4(1.0),
-                                                glm::vec3(x, y, z)));
+    _entityLibrary.createEntity("asteroid");
   }
 }
