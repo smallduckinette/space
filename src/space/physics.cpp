@@ -8,8 +8,9 @@
 #include "engine/core/json_utils.h"
 
 
-void space::PhysicsArchetype::deserialize(const Json::Value &)
+void space::PhysicsArchetype::deserialize(const Json::Value & doc)
 {
+  engine::deserializeJson(_type, doc, "type");
 }
 
 void space::Physics::registerArchetype(const std::string & name,
@@ -36,24 +37,81 @@ void space::Physics::createEntity(engine::EntityId entityId,
   auto it = _archetypes.find(archetype);
   if(it != _archetypes.end())
   {
-    _entities.emplace(entityId, PhysicsEntity());
+    if(it->second._type == "ship")
+    {
+      _ships.emplace(entityId, ShipEntity());
+    }
+    else if(it->second._type == "debris")
+    {
+      std::random_device r;
+      std::default_random_engine e1(r());
+      std::uniform_real_distribution<float> randomPosition(-100, 100);
+      std::uniform_real_distribution<float> randomAxis(-1, 1);
+      std::uniform_real_distribution<float> randomRotationSpeed(0, 15);
 
-    std::random_device r;
-    std::default_random_engine e1(r());
-    std::uniform_int_distribution<int> uniform_dist(-100, 100);
+      float x = randomPosition(e1);
+      float y = randomPosition(e1);
+      float z = randomPosition(e1);
 
-    int x = uniform_dist(e1);
-    int y = uniform_dist(e1);
-    int z = uniform_dist(e1);
+      float a = randomAxis(e1);
+      float b = randomAxis(e1);
+      float c = randomAxis(e1);
 
-    glm::mat4 transform = glm::translate(glm::mat4(1.0),
-                                         glm::vec3(x, y, z));
+      float rs = randomRotationSpeed(e1);
 
-    onTransform().emit(entityId, transform);
+      _debris.emplace(entityId, DebrisEntity(glm::vec3(x, y, z),
+                                             glm::normalize(glm::vec3(a, b, c)),
+                                             rs));
+    }
+    else
+    {
+      BOOST_LOG_TRIVIAL(error) << "Unknown physics entity type " << it->second._type;
+    }
   }
+}
+
+void space::Physics::updateYawAxis(engine::EntityId entityId, double value)
+{
+  auto it = _ships.find(entityId);
+  if(it != _ships.end())
+    it->second.setYawDelta(value);
+}
+
+void space::Physics::updateRollAxis(engine::EntityId entityId, double value)
+{
+  auto it = _ships.find(entityId);
+  if(it != _ships.end())
+    it->second.setRollDelta(value);
+}
+
+void space::Physics::updatePitchAxis(engine::EntityId entityId, double value)
+{
+  auto it = _ships.find(entityId);
+  if(it != _ships.end())
+    it->second.setPitchDelta(value);
+}
+
+void space::Physics::updateThrottle(engine::EntityId entityId, double value)
+{
+  auto it = _ships.find(entityId);
+  if(it != _ships.end())
+    it->second.setThrottle(value);
 }
 
 engine::Signal<engine::EntityId, glm::mat4> & space::Physics::onTransform()
 {
   return _transformSignal;
+}
+
+void space::Physics::update(float deltaTs)
+{
+  for(auto && [id, ship] : _ships)
+  {
+    onTransform().emit(id, ship.update(deltaTs));
+  }
+
+  for(auto && [id, debris] : _debris)
+  {
+    onTransform().emit(id, debris.update(deltaTs));
+  }
 }

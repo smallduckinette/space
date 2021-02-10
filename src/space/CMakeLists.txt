@@ -1,6 +1,8 @@
 add_executable(
   space
+  debrisentity.cpp
   physics.cpp
+  shipentity.cpp
   space.cpp
   world.cpp)
 

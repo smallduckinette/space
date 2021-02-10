@@ -42,6 +42,10 @@ int main(int argc, char ** argv)
           {
             running = false;
           }
+          else
+          {
+            world.onEvent(event);
+          }
         }
 
         float t2 = app.clock()->getTimestamp();
@@ -49,7 +53,7 @@ int main(int argc, char ** argv)
         BOOST_LOG_TRIVIAL(debug) << 1 / d;
         t1 = t2;
 
-        world.onFrame();
+        world.onFrame(d);
         SDL_GL_SwapWindow(app.window());
       }
     }
