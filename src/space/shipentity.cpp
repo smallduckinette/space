@@ -40,15 +40,18 @@ void space::ShipEntity::setThrottle(float val)
 glm::mat4 space::ShipEntity::update(float deltaTs)
 {
   // Adjust attitude
-  _rotate = glm::eulerAngleYXZ(_yawDelta * deltaTs,
-                               _pitchDelta * deltaTs,
-                               _rollDelta * deltaTs) * _rotate;
+  _rotate *= glm::eulerAngleYXZ(_yawDelta * deltaTs,
+                                _pitchDelta * deltaTs,
+                                _rollDelta * deltaTs);
 
   // Adjust position
   glm::vec3 front(0, 0, 1);
+  glm::vec3 up(0, 1, 0);
   _position +=
-    //(_rotate * front) *
+    (glm::mat3(_rotate) * front) *
     _power * deltaTs * _throttle;
 
-  return glm::translate(_rotate, _position);
+  return glm::lookAt(_position,
+                     _position + glm::mat3(_rotate) * front,
+                     glm::mat3(_rotate) * up);
 }
