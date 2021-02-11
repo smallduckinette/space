@@ -3,6 +3,7 @@
 #include <boost/log/trivial.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 
 space::ShipEntity::ShipEntity(float power):
@@ -39,8 +40,9 @@ void space::ShipEntity::setThrottle(float val)
 glm::mat4 space::ShipEntity::update(float deltaTs)
 {
   // Adjust attitude
-  glm::vec3 side = glm::vec3(1, 0, 0);
-  _rotate = glm::rotate(_rotate, deltaTs * _pitchDelta, side);
+  _rotate = glm::eulerAngleYXZ(_yawDelta * deltaTs,
+                               _pitchDelta * deltaTs,
+                               _rollDelta * deltaTs) * _rotate;
 
   // Adjust position
   glm::vec3 front(0, 0, 1);

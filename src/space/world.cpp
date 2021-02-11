@@ -62,7 +62,6 @@ void space::World::registerSystemsAndEntities()
        {
          if(entityId == _selfEntityId)
          {
-           BOOST_LOG_TRIVIAL(info) << "Set view " << glm::to_string(transform);
            _graphics.setView(transform);
          }
          else
@@ -78,7 +77,11 @@ void space::World::registerSystemsAndEntities()
            _physics.updatePitchAxis(_selfEntityId,
                                     std::clamp(-value / 32767.0f, -1.0f, 1.0f));
          else if(bindingId == _roll)
-           _physics.updateRollAxis(_selfEntityId, value);
+           _physics.updateRollAxis(_selfEntityId,
+                                   std::clamp(value / 32767.0f, -1.0f, 1.0f));
+         else if(bindingId == _yaw)
+           _physics.updateYawAxis(_selfEntityId,
+                                   std::clamp(value / 32767.0f, -1.0f, 1.0f));
          else if(bindingId == _throttle)
            _physics.updateThrottle(_selfEntityId,
                                    std::clamp(1 - (value + 32767) / 65535.0f, 0.0f, 1.0f));
