@@ -71,20 +71,16 @@ void space::World::registerSystemsAndEntities()
        });
 
     _controls.onAxis().connect
-      ([this](engine::Controls::BindingId bindingId, int value)
+      ([this](engine::Controls::BindingId bindingId, float value)
        {
          if(bindingId == _pitch)
-           _physics.updatePitchAxis(_selfEntityId,
-                                    std::clamp(-value / 32767.0f, -1.0f, 1.0f));
+           _physics.updatePitchAxis(_selfEntityId, value);
          else if(bindingId == _roll)
-           _physics.updateRollAxis(_selfEntityId,
-                                   std::clamp(value / 32767.0f, -1.0f, 1.0f));
+           _physics.updateRollAxis(_selfEntityId, value);
          else if(bindingId == _yaw)
-           _physics.updateYawAxis(_selfEntityId,
-                                   std::clamp(-value / 32767.0f, -1.0f, 1.0f));
+           _physics.updateYawAxis(_selfEntityId, value);
          else if(bindingId == _throttle)
-           _physics.updateThrottle(_selfEntityId,
-                                   std::clamp(1 - (value + 32767) / 65535.0f, 0.0f, 1.0f));
+           _physics.updateThrottle(_selfEntityId, value);
        });
   }
 
