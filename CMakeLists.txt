@@ -10,7 +10,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-Wall -Wextra -pedantic -Werror -O3)
 
 include(CTest)
 
@@ -21,5 +21,6 @@ find_package(GLEW REQUIRED)
 pkg_check_modules(JSONCPP REQUIRED IMPORTED_TARGET jsoncpp)
 pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 pkg_check_modules(SDL2IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
+pkg_check_modules(SDL2TTF REQUIRED IMPORTED_TARGET SDL2_ttf)
 
 add_subdirectory(src)

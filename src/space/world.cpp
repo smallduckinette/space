@@ -19,6 +19,8 @@ space::World::World(engine::Clock * clock,
   registerSystemsAndEntities();
   initWorld();
   BOOST_LOG_TRIVIAL(info) << "Start";
+
+  _graphics.displayFps(true);
 }
 
 void space::World::onEvent(const SDL_Event & event)
