@@ -23,4 +23,11 @@ pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 pkg_check_modules(SDL2IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
 pkg_check_modules(SDL2TTF REQUIRED IMPORTED_TARGET SDL2_ttf)
 
+find_package(Doxygen)
+doxygen_add_docs(
+  doxygen
+  ${CMAKE_SOURCE_DIR}/src)
+
+find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck)
+
 add_subdirectory(src)
