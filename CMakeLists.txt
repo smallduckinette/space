@@ -22,6 +22,7 @@ pkg_check_modules(JSONCPP REQUIRED IMPORTED_TARGET jsoncpp)
 pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 pkg_check_modules(SDL2IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
 pkg_check_modules(SDL2TTF REQUIRED IMPORTED_TARGET SDL2_ttf)
+pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
 
 find_package(Doxygen)
 set(DOXYGEN_EXTRACT_ALL YES)
