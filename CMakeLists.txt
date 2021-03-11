@@ -23,6 +23,8 @@ pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 pkg_check_modules(SDL2IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
 pkg_check_modules(SDL2TTF REQUIRED IMPORTED_TARGET SDL2_ttf)
 pkg_check_modules(OPENAL REQUIRED IMPORTED_TARGET openal)
+pkg_check_modules(VORBIS REQUIRED IMPORTED_TARGET vorbis)
+pkg_check_modules(VORBISFILE REQUIRED IMPORTED_TARGET vorbisfile)
 
 find_package(Doxygen)
 set(DOXYGEN_EXTRACT_ALL YES)
